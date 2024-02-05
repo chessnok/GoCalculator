@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Go Calculator",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "servers": [
+    {
+      "url": "http://localhost:80/api/",
+      "variables": {},
+      "description": "Local docker server"
+    }
+  ]
+}
