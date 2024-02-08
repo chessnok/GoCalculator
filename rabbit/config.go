@@ -25,16 +25,6 @@ func NewConfigFromEnv() *Config {
 	}
 }
 
-func NewConfig(host string, port int, username, password, taskQueueName string) *Config {
-	return &Config{
-		Host:          host,
-		Port:          port,
-		Username:      username,
-		Password:      password,
-		TaskQueueName: taskQueueName,
-	}
-}
-
 func (c *Config) GetURI() string {
 	return fmt.Sprintf("amqp://%s:%s@%s:%d/", c.Username, c.Password, c.Host, c.Port)
 }
