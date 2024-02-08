@@ -1,35 +1,49 @@
 services:
   backend:
-    image: golang:1.21-alpine
-    command: go run cmd/main.go
-    working_dir: /app
-    volumes:
-      - .:/app
+    build:
+      context: ..
+      dockerfile: ../Dockerfile.Go
     env_file:
-      - .env
+      - env/.env.pg
+      - env/.env.rmq
     depends_on:
       - postgres
+      - rabbitmq
   postgres:
     image: postgres:16-alpine
     ports:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+      - db_log:/var/log/postgresql
     env_file:
-      - .env
+      - env/.env.pg
   http_docs:
     image: swaggerapi/swagger-ui
     environment:
-      - SWAGGER_JSON=/api-docs/swagger.json
+      - SWAGGER_JSON=/docs/swagger.json
     volumes:
-      - ./api-docs:/api-docs
+      - ./docs:/docs
   nginx:
     image: nginx:alpine
     ports:
       - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend:/usr/share/nginx/html
     depends_on:
       - http_docs
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    env_file: env/.env.rmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq
 volumes:
   db_data:
+  db_log:
+  rabbitmq_data:
+  rabbitmq_log:
