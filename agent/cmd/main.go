@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/chessnok/GoCalculator/internal/application"
+	"github.com/chessnok/GoCalculator/agent/internal/application"
 	"os"
 )
 
