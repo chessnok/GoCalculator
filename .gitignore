@@ -20,4 +20,4 @@
 go.work
 
 # enviroment
-.env
+.env.*
