@@ -1,8 +1,8 @@
 FROM golang:1.21-alpine
 COPY . /app
 WORKDIR /app
-RUN go build -o agent agent/cmd/main.go
-RUN chmod +x agent
-RUN mv agent /app/orchestrator/agent
-WORKDIR /app/orchestrator
-CMD ["go", "run", "cmd/main.go"]
+RUN go build -o agentexe agent/cmd/main.go
+RUN chmod +x agentexe
+RUN mv agentexe /app/orchestrator/agent
+WORKDIR /app
+CMD ["go", "run", "orchestrator/cmd/main.go"]
