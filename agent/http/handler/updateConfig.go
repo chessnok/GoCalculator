@@ -11,6 +11,7 @@ func UpdateConfigHandler(config *calculator.Config) echo.HandlerFunc {
 		if err := c.Bind(nc); err != nil {
 			return c.JSON(400, map[string]string{"error": "invalid request"})
 		}
+		nc.ParallelWorkers = config.ParallelWorkers
 		*config = *nc
 		return c.JSON(200, map[string]string{"message": "config updated"})
 	}
