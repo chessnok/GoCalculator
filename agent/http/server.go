@@ -34,7 +34,8 @@ func validatePort(port int) error {
 
 // Start starts the server and listens for incoming requests
 func (s *Server) Start() error {
-	s.server.GET("/updateConfig", handler.UpdateConfigHandler(s.config.CalculatorConfig))
+	s.server.GET("/updateConfig", handler.UpdateConfigHandler(s.config.Calculator.Config))
+	s.server.GET("/currentOperation", handler.LastOperationHandler(s.config.Calculator))
 	if err := validatePort(s.config.Port); err != nil {
 		return err
 	}

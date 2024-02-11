@@ -1,8 +1,8 @@
 package application
 
 import (
-	"github.com/chessnok/GoCalculator/agent/internal/calculator"
-	"github.com/chessnok/GoCalculator/rabbit"
+	"github.com/chessnok/GoCalculator/agent/pkg/calculator"
+	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit"
 	"os"
 	"strconv"
 )
@@ -25,6 +25,6 @@ func NewConfig() *Config {
 	return &Config{
 		RabbitConfig:     rabbit.NewConfigFromEnv(),
 		Port:             port,
-		CalculatorConfig: calculator.NewConfig(),
+		CalculatorConfig: calculator.NewConfigFromArgs(),
 	}
 }

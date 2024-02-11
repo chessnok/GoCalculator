@@ -3,8 +3,8 @@ package application
 import (
 	"context"
 	server "github.com/chessnok/GoCalculator/agent/http"
-	"github.com/chessnok/GoCalculator/agent/internal/calculator"
-	"github.com/chessnok/GoCalculator/rabbit/queue"
+	"github.com/chessnok/GoCalculator/agent/pkg/calculator"
+	queue2 "github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
 	"github.com/streadway/amqp"
 	"log"
 	"os"
@@ -16,8 +16,8 @@ type Application struct {
 	config     *Config
 	server     *server.Server
 	connection *amqp.Connection
-	consumer   *queue.Consumer
-	producer   *queue.Producer
+	consumer   *queue2.Consumer
+	producer   *queue2.Producer
 	calculator *calculator.Calculator
 }
 
@@ -28,16 +28,16 @@ func NewApplication(ctx context.Context) *Application {
 		log.Default().Println(err)
 		return nil
 	}
-	producer := queue.NewProducer(conn, cfg.RabbitConfig.ResultQueueName, "text/plain")
+	producer := queue2.NewProducer(conn, cfg.RabbitConfig.ResultQueueName, "text/plain")
 	calc := calculator.NewCalculator(cfg.CalculatorConfig, producer)
-	consumer := queue.NewConsumer(conn, cfg.RabbitConfig.TaskQueueName, calc.TaskReceived)
+	consumer := queue2.NewConsumer(conn, cfg.RabbitConfig.TaskQueueName, calc.TaskReceived)
 	return &Application{
 		context:    ctx,
 		config:     cfg,
 		connection: conn,
 		consumer:   consumer,
 		producer:   producer,
-		server:     server.NewServer(server.NewConfig(cfg.Port, cfg.CalculatorConfig)),
+		server:     server.NewServer(server.NewConfig(cfg.Port, calc)),
 		calculator: calc,
 	}
 }
@@ -58,6 +58,7 @@ func (a Application) Start() int {
 			return
 		}
 	}()
+	defer a.calculator.Stop()
 	go func() {
 		a.calculator.Start()
 	}()

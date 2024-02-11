@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/chessnok/GoCalculator/agent/internal/calculator"
+	"github.com/chessnok/GoCalculator/agent/pkg/calculator"
 	"github.com/labstack/echo"
 )
 
