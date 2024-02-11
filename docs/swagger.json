@@ -1,0 +1,176 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Go Calculator",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/config/get": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "summary": "Get calculator config",
+        "description": "Get time of excuting operations",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculatorConfig"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/set": {
+      "put": {
+        "tags": [
+          "Config"
+        ],
+        "summary": "Update calculator config",
+        "description": "Set new execution time for operations",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculatorConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/list": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "description": "Get agents list",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgentInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:80/api/",
+      "variables": {},
+      "description": "Local docker server"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CalculatorConfig": {
+        "type": "object",
+        "properties": {
+          "add_execution_time": {
+            "type": "integer",
+            "description": "Time taken for addition operation in microseconds."
+          },
+          "sub_execution_time": {
+            "type": "integer",
+            "description": "Time taken for subtraction operation in microseconds."
+          },
+          "mul_execution_time": {
+            "type": "integer",
+            "description": "Time taken for multiplication operation in microseconds."
+          },
+          "div_execution_time": {
+            "type": "integer",
+            "description": "Time taken for division operation in microseconds."
+          }
+        },
+        "example": {
+          "add_execution_time": 1000000,
+          "sub_execution_time": 1000000,
+          "mul_execution_time": 1000000,
+          "div_execution_time": 1000000
+        }
+      },
+      "InternalError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error"
+          }
+        }
+      },
+      "AgentInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "last_ping": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ip": {
+            "type": "string",
+            "format": "uri",
+            "example": "localhost:10000"
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535,
+            "example": 10000
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending"
+            ]
+          },
+          "config_is_up_to_date": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

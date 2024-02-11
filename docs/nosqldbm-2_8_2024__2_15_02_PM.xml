@@ -1,0 +1,153 @@
+<mxGraphModel>
+    <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="45" style="collection" vertex="1" connectable="0" parent="1">
+            <Field as="value">{"schemaType":"Collection","name":"Agents","defaultValue":"","description":""}</Field>
+            <mxGeometry x="280" y="340" width="270" height="132" as="geometry">
+                <mxRectangle width="250" height="28" as="alternateBounds"/>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="47" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="45">
+            <Object schemaType="Field" name="id" type="Integer" required="1" unique="1" defaultValue=""
+                    description="Unique ID of agent" index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="28" width="270" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="48" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="45">
+            <Field as="value">
+                {"schemaType":"Field","name":"last_ping","type":"Date","required":true,"unique":false,"defaultValue":"","description":"","index":0,"customProps":[]}
+            </Field>
+            <mxGeometry y="54" width="270" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="49" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="45">
+            <Object schemaType="Field" name="url" type="String" required="0" unique="0" defaultValue="" description=""
+                    index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="80" width="270" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="55" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="45">
+            <Object schemaType="Field" name="status" type="String" required="0" unique="0" defaultValue=""
+                    description="" index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="106" width="270" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="50" style="collection" vertex="1" connectable="0" parent="1">
+            <Field as="value">{"schemaType":"Collection","name":"Expressions","defaultValue":"","description":""}
+            </Field>
+            <mxGeometry x="690" y="330" width="280" height="158" as="geometry">
+                <mxRectangle width="250" height="28" as="alternateBounds"/>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="52" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="50">
+            <Object schemaType="Field" name="id" type="Integer" required="1" unique="1" defaultValue="" description=""
+                    index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="28" width="280" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="51" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="50">
+            <Object schemaType="Field" name="request_id" type="Integer" required="1" unique="1" defaultValue=""
+                    description="" index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="54" width="280" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="53" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="50">
+            <Object schemaType="Field" name="created_at" type="Date" required="0" unique="0" defaultValue=""
+                    description="" index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="80" width="280" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="56" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="50">
+            <Field as="value">
+                {"schemaType":"Field","name":"result_task_id","type":"Integer","required":false,"unique":false,"defaultValue":"","description":"","index":0,"customProps":[]}
+            </Field>
+            <mxGeometry y="106" width="280" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="54" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="50">
+            <Object schemaType="Field" name="status" type="String" required="0" unique="0" defaultValue=""
+                    description="" index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="132" width="280" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="57" style="collection" vertex="1" connectable="0" parent="1">
+            <Field as="value">{"schemaType":"Collection","name":"Tasks","defaultValue":"","description":""}</Field>
+            <mxGeometry x="1090" y="330" width="265" height="210" as="geometry">
+                <mxRectangle width="250" height="28" as="alternateBounds"/>
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="58" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="57">
+            <Field as="value">
+                {"schemaType":"Field","name":"id","type":"Integer","required":true,"unique":true,"defaultValue":"","description":"","index":0,"customProps":[]}
+            </Field>
+            <mxGeometry y="28" width="265" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="60" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="57">
+            <Field as="value">
+                {"schemaType":"Field","name":"expression_id","type":"Integer","required":true,"unique":false,"defaultValue":"","description":"","index":0,"customProps":[]}
+            </Field>
+            <mxGeometry y="54" width="265" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="63" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="57">
+            <Object schemaType="Field" name="a" type="Double" required="0" unique="0" defaultValue="" description=""
+                    index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="80" width="265" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="64" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="57">
+            <Field as="value">
+                {"schemaType":"Field","name":"b","type":"Double","required":false,"unique":false,"defaultValue":"","description":"","index":0,"customProps":[]}
+            </Field>
+            <mxGeometry y="106" width="265" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="65" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="57">
+            <Object schemaType="Field" name="status" type="String" required="1" unique="0" defaultValue=""
+                    description="" index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="132" width="265" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="68" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="57">
+            <Object schemaType="Field" name="next_task_id" type="ObjectId" required="0" unique="0" defaultValue=""
+                    description="" index="0" as="value">
+                <Array as="customProps"/>
+            </Object>
+            <mxGeometry y="158" width="265" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="69" style="whiteSpace=nowrap;strokeColor=#a4c0cd;html=1;autosize=1;resizable=0;" vertex="1"
+                parent="57">
+            <Field as="value">
+                {"schemaType":"Field","name":"next_number_type","type":"Boolean","required":false,"unique":false,"defaultValue":"","description":"","index":0,"customProps":[]}
+            </Field>
+            <mxGeometry y="184" width="265" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="61" edge="1" parent="1" source="60" target="52">
+            <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="62" edge="1" parent="1" source="56" target="58">
+            <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+    </root>
+</mxGraphModel>
