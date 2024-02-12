@@ -20,6 +20,10 @@
         <summary>DB structure</summary>
         <img src="docs/pict/db_schema.png">
     </details>
+    <details>
+        <summary>Go packages structure</summary>
+        <img src="docs/pict/depend_graph.png">
+    </details>
 </div>
 
 ### Technologies
