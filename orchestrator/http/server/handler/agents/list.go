@@ -1,11 +1,11 @@
 package agents
 
 import (
-	"github.com/chessnok/GoCalculator/orchestrator/internal/db/table/agents"
+	"github.com/chessnok/GoCalculator/orchestrator/internal/db/table"
 	"github.com/labstack/echo/v4"
 )
 
-func GetListAgentsHandler(ag *agents.Agents) echo.HandlerFunc {
+func GetListAgentsHandler(ag *table.Agents) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		a, err := ag.GetList()
 		if err != nil {

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/chessnok/GoCalculator/orchestrator/http/server/handler/agents"
 	configHandler "github.com/chessnok/GoCalculator/orchestrator/http/server/handler/config"
+	"github.com/chessnok/GoCalculator/orchestrator/http/server/handler/expression"
 	"github.com/labstack/echo/v4"
 	"strconv"
 )
@@ -27,6 +28,8 @@ func NewServer(config *Config) *Server {
 	configRoute.PUT("/set", configHandler.SetConfigRequestHandler(config.CalculatorConfig))
 	agentsRoute := s.Group("/agent")
 	agentsRoute.GET("/list", agents.GetListAgentsHandler(config.DB.Agents))
+	expressionsRoute := s.Group("/expression")
+	expressionsRoute.POST("/new", expression.NewExpressionHandler(config.Producer, config.DB))
 	return &Server{
 		server: s,
 		config: config,

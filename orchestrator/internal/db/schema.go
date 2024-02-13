@@ -3,7 +3,7 @@ package db
 var schema = `
 CREATE TABLE IF NOT EXISTS agents
 (
-    id        UUID PRIMARY KEY,
+    id        TEXT PRIMARY KEY,
     last_ping TIMESTAMP,
     ip       TEXT NOT NULL,
     port     INTEGER,
@@ -12,25 +12,23 @@ CREATE TABLE IF NOT EXISTS agents
 );
 CREATE TABLE IF NOT EXISTS expressions
 (
-    id             UUID PRIMARY KEY,
-    REQUEST_ID     TEXT UNIQUE NOT NULL,
-    created_at     TIMESTAMP          NOT NULL,
-    result_task_id UUID 			  NOT NULL,
-    status         TEXT      NOT NULL
+    id             TEXT PRIMARY KEY,
+    created_at     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    result_task_id TEXT NOT NULL,
+    status         TEXT NOT NULL DEFAULT 'pending'
 );
 CREATE TABLE IF NOT EXISTS tasks
 (
-    id            UUID PRIMARY KEY,
-    expression_id UUID,
-    a             DOUBLE PRECISION,
-    b             DOUBLE PRECISION,
-    operation     TEXT NOT NULL,
-    result        DOUBLE PRECISION,
-    is_err        BOOLEAN DEFAULT FALSE,
-    error         TEXT,
-    status        TEXT NOT NULL,
-    next_task_id  UUID,
-    created_at    TIMESTAMP
+    id            TEXT PRIMARY KEY,
+    operation     VARCHAR(1) NOT NULL,
+    a             FLOAT,
+    b             FLOAT,
+    task_id 	  TEXT,
+    a_is_numeral BOOLEAN,
+    b_is_numeral BOOLEAN,
+    next_task_id  TEXT,
+    next_task_type TEXT,
+    is_final      BOOLEAN NOT NULL
 )
 `
 

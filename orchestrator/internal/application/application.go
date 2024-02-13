@@ -34,7 +34,7 @@ func NewApplication(ctx context.Context) (*Application, error) {
 	consumer := queue.NewConsumer(conn, cfg.RabbitConfig.ResultQueueName, pg.OnNewResult)
 	return &Application{
 		context:  ctx,
-		server:   server.NewServer(server.NewConfig(8080, cfg.CalculatorConfig, pg)),
+		server:   server.NewServer(server.NewConfig(8080, cfg.CalculatorConfig, pg, producer)),
 		db:       pg,
 		conn:     conn,
 		producer: producer,

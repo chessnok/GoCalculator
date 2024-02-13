@@ -3,14 +3,16 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"github.com/chessnok/GoCalculator/orchestrator/internal/db/table/agents"
+	"github.com/chessnok/GoCalculator/orchestrator/internal/db/table"
 	_ "github.com/lib/pq"
 	"github.com/streadway/amqp"
 )
 
 type Postgres struct {
 	db *sql.DB
-	*agents.Agents
+	*table.Agents
+	*table.Tasks
+	*table.Expressions
 }
 
 func NewPostgres(cfg *Config) (*Postgres, error) {
@@ -19,8 +21,10 @@ func NewPostgres(cfg *Config) (*Postgres, error) {
 		return nil, err
 	}
 	return &Postgres{
-		db:     db,
-		Agents: agents.NewAgents(db),
+		db:          db,
+		Agents:      table.NewAgents(db),
+		Tasks:       table.NewTasks(db),
+		Expressions: table.NewExpressions(db),
 	}, nil
 }
 func (p *Postgres) OnNewResult(message *amqp.Delivery) {

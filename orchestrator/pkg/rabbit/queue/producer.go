@@ -1,6 +1,9 @@
 package queue
 
-import "github.com/streadway/amqp"
+import (
+	"encoding/json"
+	"github.com/streadway/amqp"
+)
 
 // Producer - struct for sending messages to rabbitmq
 type Producer struct {
@@ -20,8 +23,8 @@ func NewProducer(conn *amqp.Connection, queueName, t string) *Producer {
 	}
 }
 
-// Send sends a message. If the queue doesn't exist, it will be created.
-func (p *Producer) Send(msg []byte) error {
+// send sends a message. If the queue doesn't exist, it will be created.
+func (p *Producer) send(msg []byte) error {
 	ch, err := p.conn.Channel()
 	if err != nil {
 		return err
@@ -55,4 +58,12 @@ func (p *Producer) Send(msg []byte) error {
 			Body:        msg,
 		},
 	)
+}
+
+func (p *Producer) SendJson(msg interface{}) error {
+	t, err := json.Marshal(msg)
+	if err != nil {
+		return err
+	}
+	return p.send(t)
 }

@@ -7,10 +7,10 @@ import (
 )
 
 var (
-	ErrorNotAllowedSymbols = errors.New("expressions contains not allowed symbols")
-	ErrorWithParentheses   = errors.New("expressions contains some eroors with parentheses")
-	ErrorRepeatedOperators = errors.New("expressions contains repeated operators")
-	ErrorEmptyExpression   = errors.New("expressions is empty")
+	ErrorNotAllowedSymbols = errors.New("expression contains not allowed symbols")
+	ErrorWithParentheses   = errors.New("expression contains some eroors with parentheses")
+	ErrorRepeatedOperators = errors.New("expression contains repeated operators")
+	ErrorEmptyExpression   = errors.New("expression is empty")
 	allowedSymbols         = "0123456789+-*/()"
 )
 
@@ -27,7 +27,7 @@ func checkForEmptyExpression(expression string) bool {
 }
 
 func checkForRepeatedOperators(expression string) bool {
-	regex := `[\+\-\*\/]{2,}`
+	regex := `[\+\*\/]{2,}|[\+\-\*\/]{2,}[^0-9]`
 	matched, _ := regexp.MatchString(regex, expression)
 	return matched
 }
@@ -54,7 +54,7 @@ func checkForParenthesesErrors(expression string) bool {
 			return true
 		}
 	}
-	return parentheses == 0
+	return parentheses != 0
 }
 func normalizeExpression(expression string) (string, error) {
 	expression = strings.ReplaceAll(expression, " ", "")
