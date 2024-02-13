@@ -43,7 +43,7 @@ func (c *Calculator) Start() {
 				} else {
 					res = message.NewResult(task.Id, result, false, "")
 				}
-				err = c.producer.Send(res.ToJSON())
+				err = c.producer.SendJson(res)
 			}
 		}()
 	}
