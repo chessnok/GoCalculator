@@ -21,11 +21,11 @@ func NewExpressionHandler(rmqProducer *queue.Producer, postgres *db.Postgres) ec
 		if err != nil {
 			return c.JSON(400, map[string]string{"error": "Invalid expression, " + err.Error()})
 		}
-		err = postgres.NewExpression(expr)
+		err = postgres.Expressions.New(expr)
 		if err != nil {
 			return c.JSON(500, map[string]string{"error": "Internal server error"})
 		}
-		err = postgres.NewTasks(expr.Tasks)
+		err = postgres.Tasks.New(expr.Tasks)
 		if err != nil {
 			return c.JSON(500, map[string]string{"error": "Internal server error"})
 		}

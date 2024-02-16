@@ -4,21 +4,18 @@ import (
 	"github.com/chessnok/GoCalculator/orchestrator/internal/expressions/task"
 	"github.com/google/uuid"
 	"strings"
+	"time"
 )
 
 type Expression struct {
-	// Id - unique identifier
-	Id string `json:"id" xml:"id"`
-	// Expression - expressions to calculate
-	Expression string `json:"expression" xml:"expression"`
-	// NormalizedExpression - expressions after normalization
-	NormalizedExpression string `json:"normalized_expression" xml:"normalized_expression"`
-	// IsValid - is expressions valid
-	IsValid bool `json:"is_valid" xml:"is_valid"`
-	//	ResultTaskId - id of the task that will be executed to calculate the expression
-	ResultTaskId string `json:"-" xml:"-"`
-	//	Tasks		- list of tasks that will be executed to calculate the expression
-	Tasks []*task.Task `json:"-"`
+	Id                   string       `json:"id" xml:"id"`
+	Expression           string       `json:"expression" xml:"expression"`
+	NormalizedExpression string       `json:"normalized_expression" xml:"normalized_expression"`
+	ResultTaskId         string       `json:"-" xml:"-"`
+	Status               string       `json:"status" xml:"status"`
+	Result               float64      `json:"result" xml:"result"`
+	CreatedAt            time.Time    `json:"created_at" xml:"created_at"`
+	Tasks                []*task.Task `json:"tasks" xml:"tasks"`
 }
 type Operation struct {
 	ID           int
@@ -48,8 +45,8 @@ func NewExpression(expression string) (*Expression, error) {
 		Id:                   uid,
 		Expression:           expression,
 		NormalizedExpression: normalizedExpression,
-		IsValid:              true,
 		Tasks:                tsks,
+		Status:               "pending",
 		ResultTaskId:         tsks[len(tsks)-1].Id,
 	}, err
 }

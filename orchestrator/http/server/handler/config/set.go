@@ -2,14 +2,19 @@ package config
 
 import (
 	"github.com/chessnok/GoCalculator/agent/pkg/calculator"
+	"github.com/chessnok/GoCalculator/orchestrator/internal/agents/manager"
 	"github.com/labstack/echo/v4"
 )
 
-func SetConfigRequestHandler(config *calculator.Config) echo.HandlerFunc {
+func SetConfigRequestHandler(mangr *manager.AgentManager) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		if err := c.Bind(config); err != nil {
+		var newConfig calculator.Config
+		if err := c.Bind(&newConfig); err != nil {
 			return c.JSON(400, err)
 		}
-		return c.JSON(200, config)
+		newConfig.ParallelWorkers = mangr.CalculatorConfig.ParallelWorkers
+		*mangr.CalculatorConfig = newConfig
+		mangr.UpdateConfig()
+		return c.JSON(200, newConfig)
 	}
 }

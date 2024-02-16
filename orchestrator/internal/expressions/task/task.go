@@ -7,11 +7,11 @@ import (
 )
 
 type Operation struct {
-	Id       string
-	A        any
-	B        any
-	Operator string
-	next     *Operation
+	Id        string
+	A         any
+	B         any
+	Operation string
+	next      *Operation
 }
 type Task struct {
 	Id           string  `json:"id"`
@@ -19,18 +19,21 @@ type Task struct {
 	A            float64 `json:"a"`
 	B            float64 `json:"b"`
 	ExprId       string  `json:"-"`
-	AIsNumeral   bool    `json:"-"`
-	BIsNumeral   bool    `json:"-"`
-	NextTaskId   string  `json:"-"`
+	AIsNumeral   bool    `json:"a_is_numeral"`
+	BIsNumeral   bool    `json:"b_is_numeral"`
+	NextTaskId   string  `json:"next_task_id"`
 	NextTaskType bool    `json:"-"`
-	IsFinal      bool    `json:"-"`
+	IsFinal      bool    `json:"is_final"`
+	Error        string  `json:"error"`
+	Status       string  `json:"status"`
+	Result       float64 `json:"result"`
 }
 
 func newOperation(a any, b any, operator string) *Operation {
 	return &Operation{
-		A:        a,
-		B:        b,
-		Operator: operator,
+		A:         a,
+		B:         b,
+		Operation: operator,
 	}
 }
 
@@ -48,6 +51,7 @@ func tasksFromOperations(operations []*Operation) []*Task {
 	for i, operation := range operations {
 		res = append(res, NewTask())
 		task := res[i]
+		task.Operation = operation.Operation
 		switch operation.A.(type) {
 		case int:
 			task.A = float64(operation.A.(int))

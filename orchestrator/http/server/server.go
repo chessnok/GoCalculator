@@ -25,11 +25,12 @@ func NewServer(config *Config) *Server {
 	s := echo.New()
 	configRoute := s.Group("/config")
 	configRoute.GET("/get", configHandler.GetConfigRequestHandler(config.CalculatorConfig))
-	configRoute.PUT("/set", configHandler.SetConfigRequestHandler(config.CalculatorConfig))
+	configRoute.PUT("/set", configHandler.SetConfigRequestHandler(config.agentManager))
 	agentsRoute := s.Group("/agent")
 	agentsRoute.GET("/list", agents.GetListAgentsHandler(config.DB.Agents))
 	expressionsRoute := s.Group("/expression")
 	expressionsRoute.POST("/new", expression.NewExpressionHandler(config.Producer, config.DB))
+	expressionsRoute.GET("/list", expression.GetListExpressionsHandler(config.DB.Expressions))
 	return &Server{
 		server: s,
 		config: config,

@@ -9,10 +9,10 @@ import (
 )
 
 type Postgres struct {
-	db *sql.DB
-	*table.Agents
-	*table.Tasks
-	*table.Expressions
+	db          *sql.DB
+	Agents      *table.Agents
+	Tasks       *table.Tasks
+	Expressions *table.Expressions
 }
 
 func NewPostgres(cfg *Config) (*Postgres, error) {
