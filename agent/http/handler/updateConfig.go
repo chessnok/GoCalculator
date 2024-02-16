@@ -13,6 +13,6 @@ func UpdateConfigHandler(config *calculator.Config) echo.HandlerFunc {
 		}
 		nc.ParallelWorkers = config.ParallelWorkers
 		*config = *nc
-		return c.JSON(200, map[string]string{"message": "config updated"})
+		return c.JSON(200, map[string]string{"task": "config updated"})
 	}
 }

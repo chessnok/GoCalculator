@@ -7,6 +7,6 @@ import (
 
 func LastOperationHandler(calc *calculator.Calculator) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return c.JSON(200, map[string]string{"operation": calc.LastOperationID})
+		return c.JSON(200, map[string]string{"task": calc.LastOperationID})
 	}
 }
