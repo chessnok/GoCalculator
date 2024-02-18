@@ -2,8 +2,8 @@ package calculator
 
 import (
 	"errors"
-	"github.com/chessnok/GoCalculator/agent/internal/message"
-	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
+	"github.com/chessnok/GoCalculator/orchestrator/pkg/result"
+	"github.com/chessnok/GoCalculator/orchestrator/pkg/task"
 	"github.com/streadway/amqp"
 	"sync"
 )
@@ -15,35 +15,38 @@ var (
 
 type Calculator struct {
 	LastOperationID string
+	Cnt             int
 	mu              sync.RWMutex
 	Config          *Config
-	Tasks           chan message.Task
-	producer        *queue.Producer
+	Tasks           chan interface{}
+	Results         chan interface{}
 }
 
-func NewCalculator(config *Config, producer *queue.Producer) *Calculator {
+func NewCalculator(config *Config, tasks, results chan interface{}) *Calculator {
 	return &Calculator{
-		Config:   config,
-		Tasks:    make(chan message.Task),
-		producer: producer,
+		Config:  config,
+		Tasks:   tasks,
+		Results: results,
 	}
 }
 
 func (c *Calculator) Start() {
 	for i := 0; i < c.Config.ParallelWorkers; i++ {
 		go func() {
-			for task := range c.Tasks {
+			for {
+				tsk := <-c.Tasks
+				task := task.TaskFromDelivery(tsk.(*amqp.Delivery))
 				c.mu.Lock()
 				c.LastOperationID = task.Id
 				c.mu.Unlock()
-				result, err := c.calc(task.Operation, task.A, task.B)
-				var res *message.Result
+				resp, err := c.calc(task.Operation, task.A, task.B)
+				var res *result.Result
 				if err != nil {
-					res = message.NewResult(task.Id, 0, true, "Error while running the operation")
+					res = result.NewResult(task.Id, 0, true, err.Error())
 				} else {
-					res = message.NewResult(task.Id, result, false, "")
+					res = result.NewResult(task.Id, resp, false, "")
 				}
-				err = c.producer.SendJson(res)
+				c.Results <- res
 			}
 		}()
 	}
@@ -51,8 +54,9 @@ func (c *Calculator) Start() {
 
 func (c *Calculator) Stop() {
 	close(c.Tasks)
+	close(c.Results)
 }
 func (c *Calculator) TaskReceived(delivery *amqp.Delivery) {
-	task := message.TaskFromDelivery(delivery)
+	task := task.TaskFromDelivery(delivery)
 	c.Tasks <- *task
 }

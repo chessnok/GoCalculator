@@ -52,13 +52,3 @@ func NewConfigFromArgs() *Config {
 		DivExecutionTime: divTime,
 	}
 }
-
-func NewConfig() *Config {
-	return &Config{
-		ParallelWorkers:  1,
-		AddExecutionTime: 1 * time.Millisecond,
-		SubExecutionTime: 1 * time.Millisecond,
-		MulExecutionTime: 1 * time.Millisecond,
-		DivExecutionTime: 1 * time.Millisecond,
-	}
-}

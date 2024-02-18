@@ -5,13 +5,98 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/agent/new": {
+      "post": {
+        "tags": [
+          "Agent"
+        ],
+        "description": "Create new agent",
+        "responses": {
+          "200": {
+            "description": "Successful response. New agent created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expression/new": {
+      "description": "Create new expression",
+      "post": {
+        "tags": [
+          "Expression"
+        ],
+        "description": "Create new expression",
+        "responses": {
+          "200": {
+            "description": "New response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpressionInfo"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expression/list": {
+      "description": "Get expressions list",
+      "get": {
+        "tags": [
+          "Expression"
+        ],
+        "description": "Get expressions list",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpressionInfo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/config/get": {
       "get": {
         "tags": [
           "Config"
         ],
         "summary": "Get calculator config",
-        "description": "Get time of excuting operations",
+        "description": "Get time of executing operations",
         "responses": {
           "200": {
             "description": "Successful",
@@ -102,6 +187,51 @@
   ],
   "components": {
     "schemas": {
+      "TaskInfo": {
+        "description": "Task info",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "+",
+              "-",
+              "*",
+              "/"
+            ]
+          },
+          "a": {
+            "type": "number"
+          },
+          "b": {
+            "type": "number"
+          },
+          "a_is_numeral": {
+            "type": "boolean"
+          },
+          "b_is_numeral": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string"
+          },
+          "result": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "done"
+            ]
+          }
+        }
+      },
       "CalculatorConfig": {
         "type": "object",
         "properties": {
@@ -168,6 +298,35 @@
           },
           "config_is_up_to_date": {
             "type": "boolean"
+          }
+        }
+      },
+      "ExpressionInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expression": {
+            "type": "string",
+            "description": "Expression to be calculated"
+          },
+          "normalized_expression": {
+            "type": "string",
+            "description": "Normalized expression"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "done"
+            ]
+          },
+          "result": {
+            "type": "number",
+            "description": "Result of the expression"
           }
         }
       }

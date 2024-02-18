@@ -1,13 +1,12 @@
 import React from "react";
 import {Nav, Navbar} from "react-bootstrap";
-import Logo from "../assets/logo.svg";
 
 function Header() {
     return (
         <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="/">
                 <img
-                    src={Logo}
+                    src={"/logo.svg"}
                     alt="Logo"
                     height={100}
                 />

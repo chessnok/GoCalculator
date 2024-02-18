@@ -80,6 +80,9 @@ func (p *AgentManager) GetCurrentOperations() map[string]string {
 	return p.currOperaion
 }
 
+func (p *AgentManager) NewAgent(id string, ip string, port int) {
+	p.agents.NewAgent(id, ip, port)
+}
 func (p *AgentManager) UpdateConfig() {
 	ctx := context.Background()
 	agnts, err := p.agents.GetAgentsList()

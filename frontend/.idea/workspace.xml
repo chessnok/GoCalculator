@@ -5,49 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d54d3a1-2eea-43d4-9078-94c20de7400b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Dockerfile" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../docs/pict/depend_graph.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/frontend.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/logo192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/logo512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/robots.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/NotConnectedAlert.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/agents/components/Agent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/agents/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/config/components/AgentForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/config/components/CalculatorForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/config/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/expressions/components/Expression.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/expressions/components/ExpressionsList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/expressions/components/NewExpressionForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/expressions/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/reportWebVitals.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../orchestrator/internal/expressions/manager/manager.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../orchestrator/pkg/task/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Dockerfile.backend" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../agent/internal/application/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/../agent/internal/application/application.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../agent/internal/message/result.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../agent/internal/message/task.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../agent/internal/message/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/pkg/task/task.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../agent/pkg/calculator/calculator.go" beforeDir="false" afterPath="$PROJECT_DIR$/../agent/pkg/calculator/calculator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../agent/pkg/calculator/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/../agent/pkg/calculator/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../api-docs/swagger.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../cmd/logging/manager.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../env/env.go.example" beforeDir="false" afterPath="$PROJECT_DIR$/../env/env.go.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/expressions/components/ExpressionsList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/expressions/components/ExpressionsList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../http/server/config.go" beforeDir="false" />
@@ -57,9 +33,11 @@
       <change beforePath="$PROJECT_DIR$/../orchestrator/http/server/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/http/server/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/http/server/handler/expression/new.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/http/server/handler/expression/new.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/http/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/http/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orchestrator/internal/agents/manager/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/agents/manager/manager.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/internal/application/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/application/application.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/internal/application/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/application/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/internal/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/db/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orchestrator/internal/db/table/agents.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/db/table/agents.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/internal/db/table/tasks.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/db/table/tasks.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/internal/expressions/task/rpn.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/expressions/task/rpn.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../orchestrator/internal/expressions/task/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/../orchestrator/internal/expressions/task/task.go" afterDir="false" />
@@ -102,7 +80,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/golang/goCalculator/frontend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/golang/goCalculator/frontend/public&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -115,6 +93,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\golang\goCalculator\frontend\public" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\golang\goCalculator\frontend\src\asserts" />
     </key>
@@ -150,7 +131,8 @@
       <workItem from="1707599932820" duration="2927000" />
       <workItem from="1707852309327" duration="4485000" />
       <workItem from="1708122329195" duration="2866000" />
-      <workItem from="1708255563428" duration="7262000" />
+      <workItem from="1708255563428" duration="10149000" />
+      <workItem from="1708291199674" duration="3142000" />
     </task>
     <servers />
   </component>

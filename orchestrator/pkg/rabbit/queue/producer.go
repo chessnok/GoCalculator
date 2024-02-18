@@ -2,6 +2,7 @@ package queue
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/streadway/amqp"
 )
 
@@ -61,6 +62,7 @@ func (p *Producer) send(msg []byte) error {
 }
 
 func (p *Producer) SendJson(msg interface{}) error {
+	fmt.Println("Sending message. Body: " + fmt.Sprintf("%v", msg))
 	t, err := json.Marshal(msg)
 	if err != nil {
 		return err

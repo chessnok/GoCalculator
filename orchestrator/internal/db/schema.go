@@ -4,11 +4,11 @@ var schema = `
 CREATE TABLE IF NOT EXISTS Agents
 (
     id        TEXT PRIMARY KEY,
-    last_ping TIMESTAMP,
+    last_ping TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ip       TEXT NOT NULL,
-    port     INTEGER,
-    status    TEXT NOT NULL DEFAULT 'active',
-    config_is_up_to_date BOOLEAN DEFAULT TRUE
+    port     INTEGER NOT NULL,
+    status    TEXT NOT NULL DEFAULT 'online',
+    config_is_up_to_date BOOLEAN DEFAULT FALSE
 );
 CREATE TABLE IF NOT EXISTS Expressions
 (

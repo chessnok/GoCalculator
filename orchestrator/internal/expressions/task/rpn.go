@@ -16,19 +16,40 @@ var (
 	}
 )
 
+func splitDigits(expression string) []string {
+	res := []string{}
+	num := ""
+	for _, symbol := range expression {
+		if symbol >= '0' && symbol <= '9' {
+			num += string(symbol)
+		} else {
+			if num != "" {
+				res = append(res, num)
+			}
+			num = ""
+			res = append(res, string(symbol))
+		}
+	}
+	if num != "" {
+		res = append(res, num)
+	}
+	return res
+}
+
 func getRpn(expression string) string {
 	res := ""
+	splitedExpression := splitDigits(expression)
 	st := structure.NewStack()
-	for _, symbol := range expression {
+	for _, symbol := range splitedExpression {
 		switch symbol {
-		case '(':
+		case "(":
 			st.Push(string(symbol))
-		case ')':
+		case ")":
 			for st.Len() > 0 && st.Peek() != "(" {
 				res += st.Pop().(string) + " "
 			}
 			st.Pop()
-		case '+', '-', '*', '/':
+		case "+", "-", "*", "/":
 			for st.Len() > 0 && priority[st.Peek().(string)] >= priority[string(symbol)] {
 				res += st.Pop().(string) + " "
 			}
@@ -54,13 +75,4 @@ func GetReversePolishNotation(expression string) (string, error) {
 		return "", err.(error)
 	}
 	return res, nil
-}
-
-func main() {
-	exp := "2+4+6*5"
-	rpn, err := GetReversePolishNotation(exp)
-	if err != nil {
-		panic(err)
-	}
-	println(rpn)
 }

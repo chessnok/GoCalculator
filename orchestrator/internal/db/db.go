@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/chessnok/GoCalculator/orchestrator/internal/db/table"
 	_ "github.com/lib/pq"
-	"github.com/streadway/amqp"
 )
 
 type Postgres struct {
@@ -26,9 +25,6 @@ func NewPostgres(cfg *Config) (*Postgres, error) {
 		Tasks:       table.NewTasks(db),
 		Expressions: table.NewExpressions(db),
 	}, nil
-}
-func (p *Postgres) OnNewResult(message *amqp.Delivery) {
-	fmt.Println(string(message.Body))
 }
 
 func (p *Postgres) Close() {

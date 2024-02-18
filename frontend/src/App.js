@@ -7,7 +7,7 @@ import Expressions from "./pages/expressions";
 import Agents from "./pages/agents";
 
 function App() {
-    var ApiUrl = "http://localhost:80/host/api";
+    var ApiUrl = "http://localhost:80/api";
     return (
         <Router history={createBrowserHistory()}>
             <Header/>

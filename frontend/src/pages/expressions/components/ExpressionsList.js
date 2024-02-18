@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Expression from "./Expression";
-import NotConnectedAlert from "../../../components/NotConnectedAlert";
 
 function ExpressionsList({GetListUrl}) {
     const [isConnected, setIsConnected] = useState(true);
@@ -23,18 +22,14 @@ function ExpressionsList({GetListUrl}) {
             });
     };
     const [data, setData] = useState([]);
-    fetchData(data, setData);
     useEffect(() => {
         fetchData(data, setData);
-        const interval = setInterval(fetchData, 500);
+        const interval = setInterval(fetchData, 3000);
         return () => clearInterval(interval);
     }, [GetListUrl]);
 
     return (
         <div>
-            {isConnected ? null : (
-                <NotConnectedAlert></NotConnectedAlert>
-            )}
             <h2>Expressions List</h2>
             {data.sort((a, b) => new Date(b["created_at"]) - new Date(a["created_at"])).map((item, index) => (
                 <Expression Expression={item["expression"]} Status={item["status"]} Id={item["id"]}
