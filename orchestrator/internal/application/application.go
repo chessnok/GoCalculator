@@ -43,7 +43,7 @@ func NewApplication(ctx context.Context) (*Application, error) {
 	agentManager := manager.NewAgentManager(pg.Agents, time.Second/4, cfg.CalculatorConfig)
 	expressionsManager := manager2.NewTasksManager(pg, producer, consumer)
 	if cfg.LoadDefautAgent {
-		agentManager.NewAgent("default", "agent", 10000)
+		agentManager.NewAgent("default", "http://agent:10000", 10000)
 	}
 	return &Application{
 		context:            ctx,

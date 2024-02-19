@@ -84,21 +84,7 @@ func (p *AgentManager) NewAgent(id string, ip string, port int) {
 	p.agents.NewAgent(id, ip, port)
 }
 func (p *AgentManager) UpdateConfig() {
-	ctx := context.Background()
-	agnts, err := p.agents.GetAgentsList()
-	if err != nil {
-		log.Default().Println("Error getting agents: ", err)
-		return
-	}
-	for _, agent := range agnts {
-		s, _ := http.NewConfig(ctx, agent.IP, p.CalculatorConfig)
-		if s {
-			p.agents.SetAgentLastPing(agent.ID)
-		} else {
-			p.agents.SetAgentStatus(agent.ID, "offline")
-			p.agents.SetAgentConfigIsUpToDate(agent.ID, false)
-		}
-	}
+	p.agents.UpdateConfig()
 }
 func (p *AgentManager) StopPing() {
 	p.stopped = true

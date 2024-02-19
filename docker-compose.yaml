@@ -29,7 +29,7 @@ services:
       - rabbitmq
     volumes:
       - ./:/app
-    command: go run agent/cmd/main.go 100000
+    command: go run agent/cmd/main.go 10000
   postgres:
     image: postgres:16-alpine
     ports:

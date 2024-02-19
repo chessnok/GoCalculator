@@ -48,6 +48,12 @@ func NewApplication(ctx context.Context) *Application {
 }
 
 func (a Application) Start() int {
+	go func() {
+		err := a.server.Start()
+		if err != nil {
+			return
+		}
+	}()
 	if a.connection == nil || a.consumer == nil || a.producer == nil {
 		return 1
 	}
@@ -64,12 +70,6 @@ func (a Application) Start() int {
 			if err != nil {
 				log.Default().Println(err)
 			}
-		}
-	}()
-	go func() {
-		err := a.server.Start()
-		if err != nil {
-			return
 		}
 	}()
 	go func() {

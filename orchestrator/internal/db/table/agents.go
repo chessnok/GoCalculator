@@ -26,7 +26,10 @@ func (a *Agents) GetAgentsList() ([]agents.Agent, error) {
 	}
 	return age, nil
 }
-
+func (a *Agents) UpdateConfig() error {
+	_, err := a.db.Exec("UPDATE agents SET config_is_up_to_date = $1", false)
+	return err
+}
 func (a *Agents) NewAgent(id, ip string, port int) error {
 	row := a.db.QueryRow("SELECT count(id) as cnt FROM agents WHERE id = $1", id)
 	cnt := 0
