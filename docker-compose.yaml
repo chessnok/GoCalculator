@@ -25,7 +25,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - http_docs
-      - orchestrator
   rabbitmq:
     image: rabbitmq:3-management-alpine
     env_file: env/.env.rmq
