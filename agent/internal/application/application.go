@@ -6,6 +6,7 @@ import (
 	server "github.com/chessnok/GoCalculator/agent/http"
 	"github.com/chessnok/GoCalculator/agent/pkg/calculator"
 	queue2 "github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
+	"github.com/joho/godotenv"
 	"github.com/streadway/amqp"
 	"log"
 	"os"
@@ -24,11 +25,11 @@ type Application struct {
 }
 
 func NewApplication(ctx context.Context) *Application {
+	godotenv.Load("env/.env.go", "env/.env.pg", "env/.env.rmq")
 	cfg := NewConfig()
 	conn, err := amqp.Dial(cfg.RabbitConfig.GetURI())
 	if err != nil {
 		log.Default().Println(err)
-		return nil
 	}
 	tasks := make(chan interface{}, 10)
 	results := make(chan interface{}, 10)

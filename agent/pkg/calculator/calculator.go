@@ -2,6 +2,7 @@ package calculator
 
 import (
 	"errors"
+	"fmt"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/result"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/task"
 	"github.com/streadway/amqp"
@@ -46,6 +47,7 @@ func (c *Calculator) Start() {
 				} else {
 					res = result.NewResult(task.Id, resp, false, "")
 				}
+				fmt.Println("New result: ", res)
 				c.Results <- res
 			}
 		}()

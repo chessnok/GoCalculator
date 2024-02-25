@@ -7,6 +7,7 @@ import (
 	db2 "github.com/chessnok/GoCalculator/orchestrator/internal/db"
 	manager2 "github.com/chessnok/GoCalculator/orchestrator/internal/expressions/manager"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
+	"github.com/joho/godotenv"
 	"github.com/streadway/amqp"
 	"os"
 	"os/signal"
@@ -25,8 +26,10 @@ type Application struct {
 }
 
 func NewApplication(ctx context.Context) (*Application, error) {
+	godotenv.Load("env/.env.go", "env/.env.pg", "env/.env.rmq")
 	cfg := NewConfig()
-	pg, err := db2.NewPostgres(db2.NewConfigFromEnv())
+	pdConfig := db2.NewConfigFromEnv()
+	pg, err := db2.NewPostgres(pdConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +46,7 @@ func NewApplication(ctx context.Context) (*Application, error) {
 	agentManager := manager.NewAgentManager(pg.Agents, time.Second/4, cfg.CalculatorConfig)
 	expressionsManager := manager2.NewTasksManager(pg, producer, consumer)
 	if cfg.LoadDefautAgent {
-		agentManager.NewAgent("default", "http://agent:10000", 10000)
+		agentManager.NewAgent("default", "http://localhost:10000", 10000)
 	}
 	return &Application{
 		context:            ctx,

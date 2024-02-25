@@ -1,35 +1,4 @@
 services:
-  orchestrator:
-    build:
-      context: .
-    working_dir: /app
-    image: golang:1.21
-    env_file:
-      - env/.env.pg
-      - env/.env.rmq
-      - env/.env.go
-    depends_on:
-      - postgres
-      - rabbitmq
-      - agent
-    volumes:
-      - ./:/app
-    command: go run orchestrator/cmd/main.go
-  agent:
-    build:
-      context: .
-    working_dir: /app
-    image: golang:1.21
-    env_file:
-      - env/.env.pg
-      - env/.env.rmq
-      - env/.env.go
-    depends_on:
-      - postgres
-      - rabbitmq
-    volumes:
-      - ./:/app
-    command: go run agent/cmd/main.go 10000
   postgres:
     image: postgres:16-alpine
     ports:
