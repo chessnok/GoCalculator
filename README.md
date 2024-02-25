@@ -4,10 +4,12 @@
 
 1. Rename all files in env folder from `env.service_name.example` to `.env.service_name`
 2. Run `docker-compose up -d`
-3. Open `http://localhost` in your browser
-4. Check docs at `http://localhost/api/docs`
-5. Enjoy!
-6. Turn off the server with `docker-compose down`
+3. Run `go run orchestrator/cmd/main.go`
+4. Run `go run agent/cmd/main.go 10000`
+5. Open `http://localhost` in your browser
+6. Check docs at `http://localhost/api/docs`
+7. Enjoy!
+8. Turn off the server with `docker-compose down`
 
 ## Structure
 
