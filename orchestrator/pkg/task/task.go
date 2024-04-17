@@ -2,7 +2,7 @@ package task
 
 import (
 	"encoding/json"
-	"github.com/streadway/amqp"
+	"github.com/rabbitmq/amqp091-go"
 	"log"
 )
 
@@ -13,7 +13,7 @@ type Task struct {
 	B         float64 `json:"b"`
 }
 
-func TaskFromDelivery(delivery *amqp.Delivery) *Task {
+func TaskFromDelivery(delivery *amqp091.Delivery) *Task {
 	logger := log.Default()
 	task := Task{}
 	err := json.Unmarshal(delivery.Body, &task)
