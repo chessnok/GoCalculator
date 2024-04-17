@@ -22,28 +22,12 @@ func NewProducer(conn *amqp091.Connection, queueName, t string) *Producer {
 		queueName: queueName,
 		t:         t,
 	}
-	ch, err := p.conn.Channel()
+	ch, err := conn.Channel()
 	if err != nil {
-		return nil
+		return p
 	}
 	defer ch.Close()
-
-	// Check if queue exists, if not, declare it
-	_, err = ch.QueueInspect(p.queueName)
-	if err != nil {
-		ch, _ = p.conn.Channel()
-		_, err = ch.QueueDeclare(
-			p.queueName,
-			false,
-			false,
-			false,
-			false,
-			nil,
-		)
-		if err != nil {
-			return nil
-		}
-	}
+	declareQueue(ch, queueName)
 	return p
 }
 

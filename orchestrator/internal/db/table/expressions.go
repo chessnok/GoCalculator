@@ -18,7 +18,7 @@ func NewExpressions(db *sql.DB) *Expressions {
 }
 
 func (r *Expressions) New(exp *expressions.Expression) error {
-	_, err := r.db.Exec("INSERT INTO expressions(id, expression, normalized_expression, result_task_id, userid) VALUES ($1, $2, $3, $4)", exp.Id, exp.Expression, exp.NormalizedExpression, exp.ResultTaskId, exp.UserId)
+	_, err := r.db.Exec("INSERT INTO expressions(id, expression, normalized_expression, result_task_id, userid) VALUES ($1, $2, $3, $4, $5)", exp.Id, exp.Expression, exp.NormalizedExpression, exp.ResultTaskId, exp.UserId)
 	if err != nil {
 		return err
 	}

@@ -3,8 +3,8 @@ package application
 import (
 	"context"
 	"fmt"
+	"github.com/chessnok/GoCalculator/agent/internal/calculator"
 	"github.com/chessnok/GoCalculator/agent/internal/grpc"
-	"github.com/chessnok/GoCalculator/agent/pkg/calculator"
 	queue2 "github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
 	"github.com/rabbitmq/amqp091-go"
 	"log"

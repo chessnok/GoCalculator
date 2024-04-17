@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/result"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/task"
-	agent_proto "github.com/chessnok/GoCalculator/proto"
+	agentproto "github.com/chessnok/GoCalculator/proto"
 	"github.com/rabbitmq/amqp091-go"
 	"sync"
 )
@@ -19,13 +19,13 @@ type Calculator struct {
 	LastOperationID string
 	Cnt             int
 	mu              sync.RWMutex
-	Config          *agent_proto.Config
+	Config          *agentproto.Config
 	Tasks           chan interface{}
 	Results         chan interface{}
 	Workers         int
 }
 
-func NewCalculator(config *agent_proto.Config, tasks, results chan interface{}) *Calculator {
+func NewCalculator(config *agentproto.Config, tasks, results chan interface{}) *Calculator {
 	return &Calculator{
 		Config:  config,
 		Tasks:   tasks,
@@ -34,9 +34,6 @@ func NewCalculator(config *agent_proto.Config, tasks, results chan interface{}) 
 }
 
 func (c *Calculator) Start() {
-	{
-
-	}
 	for i := 0; i < GetWorkersCount(); i++ {
 		go func() {
 			for {

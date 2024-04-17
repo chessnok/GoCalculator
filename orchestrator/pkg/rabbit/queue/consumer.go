@@ -16,6 +16,16 @@ type Consumer struct {
 
 // NewConsumer - create new consumer
 func NewConsumer(conn *amqp091.Connection, queueName string) *Consumer {
+	c := &Consumer{
+		conn:      conn,
+		queueName: queueName,
+	}
+	ch, err := conn.Channel()
+	if err != nil {
+		return c
+	}
+	defer ch.Close()
+	declareQueue(ch, queueName)
 	return &Consumer{
 		conn:      conn,
 		queueName: queueName,
@@ -28,21 +38,7 @@ func (c *Consumer) Consume(onMessage func(*amqp091.Delivery)) error {
 	if err != nil {
 		return err
 	}
-	_, err = ch.QueueInspect(c.queueName)
-	if err != nil {
-		ch, _ = c.conn.Channel()
-		_, err = ch.QueueDeclare(
-			c.queueName,
-			false,
-			false,
-			false,
-			false,
-			nil,
-		)
-		if err != nil {
-			return err
-		}
-	}
+
 	msgs, err := ch.Consume(
 		c.queueName,
 		"",
@@ -53,6 +49,7 @@ func (c *Consumer) Consume(onMessage func(*amqp091.Delivery)) error {
 		nil,
 	)
 	go func() {
+		defer ch.Close()
 		for {
 			select {
 			case msg, ok := <-msgs:
