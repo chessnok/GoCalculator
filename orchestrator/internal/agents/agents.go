@@ -1,11 +1,9 @@
 package agents
 
-// Agent represents the table agents
+// Agent represents the table agent
 type Agent struct {
-	ID               string `json:"id"`
-	LastPing         string `json:"last_ping"`
-	IP               string `json:"ip"`
-	Port             int    `json:"port"`
-	Status           string `json:"status"`
-	ConfigIsUpToDate bool   `json:"config_is_up_to_date"`
+	ID       string `json:"id"`
+	LastPing string `json:"last_ping"`
+	Pid      string `json:"pid"`
+	//	LastExpression
 }

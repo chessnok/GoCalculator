@@ -1,0 +1,30 @@
+syntax = "proto3";
+package orchestrator;
+
+message Config {
+  int64 add_execution_time = 2;
+  int64 sub_execution_time = 3;
+  int64 mul_execution_time = 4;
+  int64 div_execution_time = 5;
+}
+
+message PingRequest {
+  string lastTask = 1;
+  string agent_id = 2;
+}
+
+message PingResponse {
+  Config new_config = 1;
+}
+message RegisterAgentRequest {
+  string pid = 1;
+}
+message RegisterAgentResponse {
+  string agent_id = 1;
+  Config config = 2;
+}
+
+service OrchestratorService {
+  rpc Ping(PingRequest) returns (PingResponse);
+  rpc RegisterAgent(RegisterAgentRequest) returns (RegisterAgentResponse);
+}

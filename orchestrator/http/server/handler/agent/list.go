@@ -1,4 +1,4 @@
-package agents
+package agent
 
 import (
 	"github.com/chessnok/GoCalculator/orchestrator/internal/db/table"

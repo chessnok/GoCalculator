@@ -6,7 +6,7 @@ function Header() {
         <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="/">
                 <img
-                    src={"/logo.svg"}
+                    src={process.env.PUBLIC_URL + "/logo.png"}
                     alt="Logo"
                     height={100}
                 />

@@ -16,6 +16,7 @@ type Expression struct {
 	Result               float64      `json:"result" xml:"result"`
 	CreatedAt            time.Time    `json:"created_at" xml:"created_at"`
 	Tasks                []*task.Task `json:"tasks" xml:"tasks"`
+	UserId               string       `json:"user_id" xml:"user_id"`
 }
 type Operation struct {
 	ID           int
@@ -27,7 +28,7 @@ type Operation struct {
 	NextTaskType bool
 }
 
-func NewExpression(expression string) (*Expression, error) {
+func NewExpression(expression, userid string) (*Expression, error) {
 	normalizedExpression, err := normalizeExpression(expression)
 	if err != nil {
 		return nil, err
@@ -48,5 +49,6 @@ func NewExpression(expression string) (*Expression, error) {
 		Tasks:                tsks,
 		Status:               "pending",
 		ResultTaskId:         tsks[len(tsks)-1].Id,
+		UserId:               userid,
 	}, err
 }

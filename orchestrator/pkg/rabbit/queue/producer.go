@@ -3,32 +3,28 @@ package queue
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/streadway/amqp"
+	"github.com/rabbitmq/amqp091-go"
 )
 
 // Producer - struct for sending messages to rabbitmq
 type Producer struct {
 	// conn - connection to rabbitmq
-	conn *amqp.Connection
+	conn *amqp091.Connection
 	// queueName - name of queue
 	queueName string
 	// t - type of message
 	t string
 }
 
-func NewProducer(conn *amqp.Connection, queueName, t string) *Producer {
-	return &Producer{
+func NewProducer(conn *amqp091.Connection, queueName, t string) *Producer {
+	p := &Producer{
 		conn:      conn,
 		queueName: queueName,
 		t:         t,
 	}
-}
-
-// send sends a message. If the queue doesn't exist, it will be created.
-func (p *Producer) send(msg []byte) error {
 	ch, err := p.conn.Channel()
 	if err != nil {
-		return err
+		return nil
 	}
 	defer ch.Close()
 
@@ -45,16 +41,25 @@ func (p *Producer) send(msg []byte) error {
 			nil,
 		)
 		if err != nil {
-			return err
+			return nil
 		}
 	}
+	return p
+}
 
+// send sends a message. If the queue doesn't exist, it will be created.
+func (p *Producer) send(msg []byte) error {
+	ch, err := p.conn.Channel()
+	if err != nil {
+		return err
+	}
+	defer ch.Close()
 	return ch.Publish(
 		"",
 		p.queueName,
 		false,
 		false,
-		amqp.Publishing{
+		amqp091.Publishing{
 			ContentType: p.t,
 			Body:        msg,
 		},

@@ -3,30 +3,28 @@ package application
 import (
 	"context"
 	"github.com/chessnok/GoCalculator/orchestrator/http/server"
-	"github.com/chessnok/GoCalculator/orchestrator/internal/agents/manager"
 	db2 "github.com/chessnok/GoCalculator/orchestrator/internal/db"
 	manager2 "github.com/chessnok/GoCalculator/orchestrator/internal/expressions/manager"
+	"github.com/chessnok/GoCalculator/orchestrator/internal/grpc"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
-	"github.com/joho/godotenv"
-	"github.com/streadway/amqp"
+	"github.com/rabbitmq/amqp091-go"
 	"os"
 	"os/signal"
-	"time"
 )
 
 type Application struct {
 	server             *server.Server
 	context            context.Context
-	conn               *amqp.Connection
+	conn               *amqp091.Connection
 	db                 *db2.Postgres
 	producer           *queue.Producer
 	consumer           *queue.Consumer
-	agentManager       *manager.AgentManager
 	expressionsManager *manager2.TasksManager
+	grpcServer         *grpc.Server
+	cfg                *Config
 }
 
 func NewApplication(ctx context.Context) (*Application, error) {
-	godotenv.Load("env/.env.go", "env/.env.pg", "env/.env.rmq")
 	cfg := NewConfig()
 	pdConfig := db2.NewConfigFromEnv()
 	pg, err := db2.NewPostgres(pdConfig)
@@ -37,32 +35,30 @@ func NewApplication(ctx context.Context) (*Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	conn, err := amqp.Dial(cfg.RabbitConfig.GetURI())
+	conn, err := amqp091.Dial(cfg.RabbitConfig.GetURI())
 	if err != nil {
 		return nil, err
 	}
 	producer := queue.NewProducer(conn, cfg.RabbitConfig.TaskQueueName, "text/plain")
 	consumer := queue.NewConsumer(conn, cfg.RabbitConfig.ResultQueueName)
-	agentManager := manager.NewAgentManager(pg.Agents, time.Second/4, cfg.CalculatorConfig)
 	expressionsManager := manager2.NewTasksManager(pg, producer, consumer)
-	if cfg.LoadDefautAgent {
-		agentManager.NewAgent("default", "http://localhost:10000", 10000)
-	}
+	grpcServer := grpc.NewServer(cfg.CalculatorConfig, pg)
 	return &Application{
+		cfg:                cfg,
 		context:            ctx,
-		server:             server.NewServer(server.NewConfig(8080, cfg.CalculatorConfig, pg, agentManager)),
+		server:             server.NewServer(server.NewConfig(8080, cfg.CalculatorConfig, pg)),
 		db:                 pg,
 		conn:               conn,
 		producer:           producer,
 		consumer:           consumer,
-		agentManager:       agentManager,
 		expressionsManager: expressionsManager,
+		grpcServer:         grpcServer,
 	}, nil
 }
 
-func (a Application) Start() int {
+func (a *Application) Start() int {
+	go grpc.Start(a.cfg.CalculatorConfig, a.db)
 	go a.server.Start()
-	go a.agentManager.StartPing()
 	go a.expressionsManager.Start()
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

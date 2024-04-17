@@ -7,7 +7,7 @@ import Expressions from "./pages/expressions";
 import Agents from "./pages/agents";
 
 function App() {
-    var ApiUrl = "http://localhost:80/api";
+    var ApiUrl = "http://localhost/api";
     return (
         <Router history={createBrowserHistory()}>
             <Header/>
@@ -15,7 +15,7 @@ function App() {
                 <Route path="/config" component={() => <ConfigPage ApiUrl={ApiUrl}></ConfigPage>}/>
                 <Route path={"/expressions"} component={() => <Expressions NewExpressionUrl={ApiUrl + "/expression/new"}
                                                                            GetListUrl={ApiUrl + "/expression/list"}></Expressions>}/>
-                <Route path={"/agents"} component={() => <Agents GetAgentsUrl={ApiUrl + "/agent/list"}></Agents>}/>
+                <Route path={"/agent"} component={() => <Agents GetAgentsUrl={ApiUrl + "/agent/list"}></Agents>}/>
             </Switch>
         </Router>
     );

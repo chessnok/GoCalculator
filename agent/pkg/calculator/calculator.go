@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/result"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/task"
-	"github.com/streadway/amqp"
+	agent_proto "github.com/chessnok/GoCalculator/proto"
+	"github.com/rabbitmq/amqp091-go"
 	"sync"
 )
 
@@ -18,12 +19,13 @@ type Calculator struct {
 	LastOperationID string
 	Cnt             int
 	mu              sync.RWMutex
-	Config          *Config
+	Config          *agent_proto.Config
 	Tasks           chan interface{}
 	Results         chan interface{}
+	Workers         int
 }
 
-func NewCalculator(config *Config, tasks, results chan interface{}) *Calculator {
+func NewCalculator(config *agent_proto.Config, tasks, results chan interface{}) *Calculator {
 	return &Calculator{
 		Config:  config,
 		Tasks:   tasks,
@@ -32,20 +34,23 @@ func NewCalculator(config *Config, tasks, results chan interface{}) *Calculator 
 }
 
 func (c *Calculator) Start() {
-	for i := 0; i < c.Config.ParallelWorkers; i++ {
+	{
+
+	}
+	for i := 0; i < GetWorkersCount(); i++ {
 		go func() {
 			for {
 				tsk := <-c.Tasks
-				task := task.TaskFromDelivery(tsk.(*amqp.Delivery))
+				task2 := task.TaskFromDelivery(tsk.(*amqp091.Delivery))
 				c.mu.Lock()
-				c.LastOperationID = task.Id
+				c.LastOperationID = task2.Id
 				c.mu.Unlock()
-				resp, err := c.calc(task.Operation, task.A, task.B)
+				resp, err := c.calc(task2.Operation, task2.A, task2.B)
 				var res *result.Result
 				if err != nil {
-					res = result.NewResult(task.Id, 0, true, err.Error())
+					res = result.NewResult(task2.Id, 0, true, err.Error())
 				} else {
-					res = result.NewResult(task.Id, resp, false, "")
+					res = result.NewResult(task2.Id, resp, false, "")
 				}
 				fmt.Println("New result: ", res)
 				c.Results <- res
@@ -58,7 +63,7 @@ func (c *Calculator) Stop() {
 	close(c.Tasks)
 	close(c.Results)
 }
-func (c *Calculator) TaskReceived(delivery *amqp.Delivery) {
-	task := task.TaskFromDelivery(delivery)
-	c.Tasks <- *task
+func (c *Calculator) TaskReceived(delivery *amqp091.Delivery) {
+	tsk := task.TaskFromDelivery(delivery)
+	c.Tasks <- *tsk
 }

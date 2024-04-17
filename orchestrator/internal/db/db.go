@@ -12,6 +12,7 @@ type Postgres struct {
 	Agents      *table.Agents
 	Tasks       *table.Tasks
 	Expressions *table.Expressions
+	Users       *table.Users
 }
 
 func NewPostgres(cfg *Config) (*Postgres, error) {
@@ -24,6 +25,7 @@ func NewPostgres(cfg *Config) (*Postgres, error) {
 		Agents:      table.NewAgents(db),
 		Tasks:       table.NewTasks(db),
 		Expressions: table.NewExpressions(db),
+		Users:       table.NewUsers(db),
 	}, nil
 }
 

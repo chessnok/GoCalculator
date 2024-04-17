@@ -1,30 +1,23 @@
 package application
 
 import (
-	"github.com/chessnok/GoCalculator/agent/pkg/calculator"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit"
-	"os"
-	"strconv"
+	agent_proto "github.com/chessnok/GoCalculator/proto"
 )
 
 type Config struct {
 	RabbitConfig     *rabbit.Config
-	CalculatorConfig *calculator.Config
-	Port             int
+	CalculatorConfig *agent_proto.Config
 }
 
 func NewConfig() *Config {
-	port := 8080
-	if len(os.Args) > 1 {
-		p, err := strconv.Atoi(os.Args[1])
-		if err != nil {
-			p = 8080
-		}
-		port = p
-	}
 	return &Config{
-		RabbitConfig:     rabbit.NewConfigFromEnv(),
-		Port:             port,
-		CalculatorConfig: calculator.NewConfigFromArgs(),
+		RabbitConfig: rabbit.NewConfigFromEnv(),
+		CalculatorConfig: &agent_proto.Config{
+			AddExecutionTime: 0,
+			SubExecutionTime: 0,
+			MulExecutionTime: 0,
+			DivExecutionTime: 0,
+		},
 	}
 }

@@ -5,16 +5,16 @@ import "time"
 func (c *Calculator) calc(operation string, a, b float64) (float64, error) {
 	switch operation {
 	case "+":
-		time.Sleep(c.Config.AddExecutionTime)
+		time.Sleep(time.Duration(c.Config.AddExecutionTime))
 		return a + b, nil
 	case "-":
-		time.Sleep(c.Config.SubExecutionTime)
+		time.Sleep(time.Duration(c.Config.SubExecutionTime))
 		return a - b, nil
 	case "*":
-		time.Sleep(c.Config.MulExecutionTime)
+		time.Sleep(time.Duration(c.Config.MulExecutionTime))
 		return a * b, nil
 	case "/":
-		time.Sleep(c.Config.DivExecutionTime)
+		time.Sleep(time.Duration(c.Config.DivExecutionTime))
 		if b == 0 {
 			return 0, ErrDivisionByZero
 		}
