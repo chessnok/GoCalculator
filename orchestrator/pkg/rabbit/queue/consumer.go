@@ -2,20 +2,20 @@ package queue
 
 import (
 	"fmt"
-	"github.com/streadway/amqp"
+	"github.com/rabbitmq/amqp091-go"
 )
 
 // Consumer - struct for receiving messages from rabbitmq
 type Consumer struct {
 	// conn - connection to rabbitmq
-	conn *amqp.Connection
+	conn *amqp091.Connection
 	// queueName - name of queue
 	queueName string
 	Stop      chan struct{}
 }
 
 // NewConsumer - create new consumer
-func NewConsumer(conn *amqp.Connection, queueName string) *Consumer {
+func NewConsumer(conn *amqp091.Connection, queueName string) *Consumer {
 	return &Consumer{
 		conn:      conn,
 		queueName: queueName,
@@ -23,7 +23,7 @@ func NewConsumer(conn *amqp.Connection, queueName string) *Consumer {
 }
 
 // Consume - start consuming messages. This method is blocking
-func (c *Consumer) Consume(onMessage func(*amqp.Delivery)) error {
+func (c *Consumer) Consume(onMessage func(*amqp091.Delivery)) error {
 	ch, err := c.conn.Channel()
 	if err != nil {
 		return err

@@ -2,7 +2,7 @@ package result
 
 import (
 	"encoding/json"
-	"github.com/streadway/amqp"
+	"github.com/rabbitmq/amqp091-go"
 	"log"
 )
 
@@ -22,7 +22,7 @@ func NewResult(id string, result float64, isErr bool, error string) *Result {
 	}
 }
 
-func ResultFromDelivery(delivery *amqp.Delivery) (*Result, error) {
+func ResultFromDelivery(delivery *amqp091.Delivery) (*Result, error) {
 	logger := log.Default()
 	res := Result{}
 	err := json.Unmarshal(delivery.Body, &res)

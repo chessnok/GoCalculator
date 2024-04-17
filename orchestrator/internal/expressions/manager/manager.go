@@ -4,7 +4,7 @@ import (
 	"github.com/chessnok/GoCalculator/orchestrator/internal/db"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/result"
-	"github.com/streadway/amqp"
+	"github.com/rabbitmq/amqp091-go"
 	"time"
 )
 
@@ -28,7 +28,7 @@ func (tm *TasksManager) SendTasksToQueue() {
 	}
 }
 
-func (tm *TasksManager) OnNewResult(delivery *amqp.Delivery) {
+func (tm *TasksManager) OnNewResult(delivery *amqp091.Delivery) {
 	res, err := result.ResultFromDelivery(delivery)
 	if err != nil {
 		return
