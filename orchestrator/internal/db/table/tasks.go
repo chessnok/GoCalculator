@@ -3,6 +3,8 @@ package table
 import (
 	"database/sql"
 	"github.com/chessnok/GoCalculator/orchestrator/internal/expressions/task"
+	pb "github.com/chessnok/GoCalculator/proto"
+	"time"
 )
 
 type Tasks struct {
@@ -52,8 +54,25 @@ func (t *Tasks) GetTasksByExpressionId(id string) ([]*task.Task, error) {
 	return tsks, nil
 }
 
-func (t *Tasks) SelectTasksToSendToQueue() ([]*task.Task, error) {
-	rows, err := t.db.Query("SELECT id, operation, a, b FROM tasks WHERE a_is_numeral = true AND b_is_numeral = true AND status = 'pending'")
+func (t *Tasks) SelectTasksToSendToQueue(config *pb.Config) ([]*task.Task, error) {
+	var maxTime int64
+	maxTime = config.AddExecutionTime
+	if config.MulExecutionTime > maxTime {
+		maxTime = config.MulExecutionTime
+	}
+	if config.DivExecutionTime > maxTime {
+		maxTime = config.DivExecutionTime
+	}
+	if config.DivExecutionTime > maxTime {
+		maxTime = config.DivExecutionTime
+	}
+	rows, err := t.db.Query(`
+    SELECT id, operation, a, b 
+    FROM tasks 
+    WHERE 
+        (a_is_numeral = true AND b_is_numeral = true AND status = 'pending') OR 
+        (status = 'in_queue' AND time < NOW() - INTERVAL '3 minutes' * $1)
+`, 3*maxTime)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +92,7 @@ func NewTasks(db *sql.DB) *Tasks {
 }
 
 func (t *Tasks) UpdateTaskStatus(id string, status string) error {
-	_, err := t.db.Exec("UPDATE tasks SET status = $1 WHERE id = $2", status, id)
+	_, err := t.db.Exec("UPDATE tasks SET status = $1, time = $3 WHERE id = $2", status, id, time.Now())
 	if err != nil {
 		return err
 	}
@@ -81,7 +100,7 @@ func (t *Tasks) UpdateTaskStatus(id string, status string) error {
 }
 
 func (t *Tasks) TaskResult(id string, result float64, isErr bool) error {
-	_, err := t.db.Exec("UPDATE tasks SET status = 'done' WHERE id = $1", id)
+	err := t.UpdateTaskStatus(id, "done")
 	if err != nil {
 		return err
 	}

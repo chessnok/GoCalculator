@@ -4,19 +4,21 @@ import (
 	"github.com/chessnok/GoCalculator/orchestrator/internal/db"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit/queue"
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/result"
+	pb "github.com/chessnok/GoCalculator/proto"
 	"github.com/rabbitmq/amqp091-go"
 	"time"
 )
 
 type TasksManager struct {
-	db       *db.Postgres
-	producer *queue.Producer
-	consumer *queue.Consumer
-	stop     chan struct{}
+	db         *db.Postgres
+	producer   *queue.Producer
+	consumer   *queue.Consumer
+	calcConfig *pb.Config
+	stop       chan struct{}
 }
 
 func (tm *TasksManager) SendTasksToQueue() {
-	tasks, err := tm.db.Tasks.SelectTasksToSendToQueue()
+	tasks, err := tm.db.Tasks.SelectTasksToSendToQueue(tm.calcConfig)
 	if err != nil {
 		return
 	}
@@ -35,11 +37,12 @@ func (tm *TasksManager) OnNewResult(delivery *amqp091.Delivery) {
 	}
 	tm.db.Tasks.TaskResult(res.Id, res.Result, res.IsErr)
 }
-func NewTasksManager(db *db.Postgres, producer *queue.Producer, consumer *queue.Consumer) *TasksManager {
+func NewTasksManager(db *db.Postgres, producer *queue.Producer, consumer *queue.Consumer, calcConfig *pb.Config) *TasksManager {
 	return &TasksManager{
-		db:       db,
-		producer: producer,
-		consumer: consumer,
+		db:         db,
+		producer:   producer,
+		consumer:   consumer,
+		calcConfig: calcConfig,
 	}
 }
 func (tm *TasksManager) Start() {

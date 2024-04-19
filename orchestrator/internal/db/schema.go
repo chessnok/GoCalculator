@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS Tasks
     next_task_type TEXT,
     is_final       BOOLEAN    NOT NULL,
     status         TEXT       NOT NULL DEFAULT 'pending',
-    user_id        TEXT
+    user_id        TEXT,
+    time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS Users
 (

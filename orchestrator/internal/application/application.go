@@ -41,7 +41,7 @@ func NewApplication(ctx context.Context) (*Application, error) {
 	}
 	producer := queue.NewProducer(conn, cfg.RabbitConfig.TaskQueueName, "text/plain")
 	consumer := queue.NewConsumer(conn, cfg.RabbitConfig.ResultQueueName)
-	expressionsManager := manager2.NewTasksManager(pg, producer, consumer)
+	expressionsManager := manager2.NewTasksManager(pg, producer, consumer, cfg.CalculatorConfig)
 	grpcServer := grpc.NewServer(cfg.CalculatorConfig, pg)
 	return &Application{
 		cfg:                cfg,
