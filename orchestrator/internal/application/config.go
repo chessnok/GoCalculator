@@ -3,7 +3,6 @@ package application
 import (
 	"github.com/chessnok/GoCalculator/orchestrator/pkg/rabbit"
 	agentproto "github.com/chessnok/GoCalculator/proto"
-	"time"
 )
 
 type Config struct {
@@ -13,7 +12,7 @@ type Config struct {
 }
 
 func NewConfig() *Config {
-	defaultTime := int64(time.Millisecond * 1)
+	defaultTime := int64(1)
 	return &Config{
 		Port: 8080,
 		CalculatorConfig: &agentproto.Config{

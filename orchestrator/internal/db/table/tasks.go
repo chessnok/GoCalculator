@@ -29,21 +29,22 @@ func (t *Tasks) New(tasks []*task.Task) error {
 func (t *Tasks) GetTaskById(id string) (*task.Task, error) {
 	row := t.db.QueryRow("SELECT id, operation, a, b, a_is_numeral, b_is_numeral, next_task_id, next_task_type, is_final, expression_id FROM tasks WHERE id = $1", id)
 	var tsk task.Task
-	if err := row.Scan(&tsk.Id, &tsk.Operation, &tsk.A, &tsk.B, &tsk.AIsNumeral, &tsk.BIsNumeral, &tsk.NextTaskId, &tsk.NextTaskType, &tsk.IsFinal, &tsk.ExprId); err != nil {
+	if err := row.Scan(&tsk.Id, &tsk.Operation, &tsk.A, &tsk.B, &tsk.AIsNumeral, &tsk.BIsNumeral, &tsk.NextTaskId, &tsk.NextTaskType, &tsk.IsFinal, &tsk.Status); err != nil {
 		return nil, err
 	}
 	return &tsk, nil
 }
+
 func (t *Tasks) GetTasksByExpressionId(id string) ([]*task.Task, error) {
-	rows, err := t.db.Query("SELECT id, operation, a, b, a_is_numeral, b_is_numeral, next_task_id, next_task_type, is_final FROM tasks WHERE expression_id = $1", id)
+	rows, err := t.db.Query("SELECT id, operation, a, b, a_is_numeral, b_is_numeral, next_task_id, next_task_type, is_final, status FROM tasks WHERE expression_id = $1", id)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 	tsks := make([]*task.Task, 0)
 	for rows.Next() {
-		var tsk task.Task
-		if err := rows.Scan(&tsk.Id, &tsk.Operation, &tsk.A, &tsk.B, &tsk.AIsNumeral, &tsk.BIsNumeral, &tsk.NextTaskId, &tsk.NextTaskType, &tsk.IsFinal); err != nil {
+		tsk := task.Task{ExprId: id}
+		if err := rows.Scan(&tsk.Id, &tsk.Operation, &tsk.A, &tsk.B, &tsk.AIsNumeral, &tsk.BIsNumeral, &tsk.NextTaskId, &tsk.NextTaskType, &tsk.IsFinal, &tsk.Status); err != nil {
 			return nil, err
 		}
 		tsks = append(tsks, &tsk)

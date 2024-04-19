@@ -33,7 +33,7 @@ func NewApplication(ctx context.Context) *Application {
 	producer := queue2.NewProducer(conn, cfg.RabbitConfig.ResultQueueName, "text/plain")
 	calc := calculator.NewCalculator(cfg.CalculatorConfig, tasks, results)
 	consumer := queue2.NewConsumer(conn, cfg.RabbitConfig.TaskQueueName)
-	rpc := grpc.NewGRPC(grpc.NewConfig())
+	rpc := grpc.NewGRPC(grpc.NewConfig(), calc)
 	return &Application{
 		config:        cfg,
 		connection:    conn,
@@ -65,9 +65,6 @@ func (a Application) Start() int {
 				log.Default().Println(err)
 			}
 		}
-	}()
-	go func() {
-		a.calculator.Start()
 	}()
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

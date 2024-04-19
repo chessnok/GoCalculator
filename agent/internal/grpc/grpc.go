@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"github.com/chessnok/GoCalculator/agent/internal/calculator"
 	pb "github.com/chessnok/GoCalculator/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -12,15 +13,16 @@ import (
 )
 
 type GRPC struct {
-	cfg              *Config
-	conn             *grpc.ClientConn
-	calculatorConfig *pb.Config
-	agentId          string
+	cfg        *Config
+	conn       *grpc.ClientConn
+	calculator *calculator.Calculator
+	agentId    string
 }
 
-func NewGRPC(cfg *Config) *GRPC {
+func NewGRPC(cfg *Config, calc *calculator.Calculator) *GRPC {
 	return &GRPC{
-		cfg: cfg,
+		cfg:        cfg,
+		calculator: calc,
 	}
 }
 func (g *GRPC) startPing() {
@@ -46,6 +48,7 @@ func (g *GRPC) Connect() error {
 		return err
 	}
 	go g.startPing()
+	go g.calculator.Start()
 	return nil
 }
 
@@ -76,7 +79,7 @@ func (g *GRPC) ping() error {
 	if err != nil {
 		return err
 	}
-	g.calculatorConfig = resp.NewConfig
+	g.calculator.Config = resp.NewConfig
 	return nil
 }
 

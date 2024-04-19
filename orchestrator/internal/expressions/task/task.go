@@ -24,9 +24,9 @@ type Task struct {
 	NextTaskId   string  `json:"next_task_id"`
 	NextTaskType bool    `json:"-"`
 	IsFinal      bool    `json:"is_final"`
-	Error        string  `json:"error"`
+	Error        string  `json:"error,omitempty"`
 	Status       string  `json:"status"`
-	Result       float64 `json:"result"`
+	Result       float64 `json:"result,omitempty"`
 }
 
 func newOperation(a any, b any, operator string) *operation {
